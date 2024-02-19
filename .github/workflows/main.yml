@@ -1,0 +1,39 @@
+name: CI
+
+on: ["push", "pull_request"]
+
+jobs:
+
+  tests:
+
+    name: "Python ${{ matrix.python-version }}"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "${{ matrix.python-version }}"
+
+      - name: Install package and run unit tests
+        run: |
+
+          # Install software
+          sudo apt-get install jq
+          pip install coverage mypy black
+
+          # Check code quality
+          black --check src/mantatools/
+          mypy src/mantatools/
+
+          # Check code coverage
+          coverage run -m unittest code.py && coverage json
+          if [[ ! "$(cat coverage.json | jq .totals.percent_covered)" == "100" ]]; then
+            echo "Coverage is below 100%"
+            exit 1
+          fi
