@@ -67,3 +67,11 @@ class Variant:
     @property
     def start(self) -> Position:
         return Position(self.chrom, int(self.pos))
+
+    @property
+    def end(self) -> Position:
+        if self.get_info("SVTYPE") == "BND":
+            if not self.mate:
+                raise MissingMate(self.id)
+            return self.mate.start
+        return Position(self.chrom, int(self.get_info("END")))
