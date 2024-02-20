@@ -8,3 +8,7 @@ class InfoFieldNotFound(MantaToolsException):
 
 class GenotypeFieldNotFound(MantaToolsException):
     pass
+
+
+class MissingMate(MantaToolsException):
+    pass

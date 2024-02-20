@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Union
 
-from mantatools.exceptions import GenotypeFieldNotFound, InfoFieldNotFound
+from mantatools.exceptions import GenotypeFieldNotFound, InfoFieldNotFound, MissingMate
 
 
 @dataclass
