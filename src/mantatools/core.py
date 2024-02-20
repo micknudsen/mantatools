@@ -57,3 +57,7 @@ class Variant:
             return self.format_dicts[sample][key]
         except KeyError:
             raise GenotypeFieldNotFound(key)
+
+    @property
+    def start(self) -> Position:
+        return Position(self.chrom, int(self.pos))
