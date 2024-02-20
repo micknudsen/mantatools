@@ -7,7 +7,7 @@ setup(
     package_dir={"": "src"},
     test_suite="tests",
     entry_points={"console_scripts": ["mantatools = mantatools.client:run"]},
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     author="Michael Knudsen",
     author_email="micknudsen@gmail.com",
 )
