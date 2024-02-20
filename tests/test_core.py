@@ -1,7 +1,7 @@
 import unittest
 
 from mantatools.core import Position, Variant
-from mantatools.exceptions import InfoFieldNotFound, GenotypeFieldNotFound
+from mantatools.exceptions import InfoFieldNotFound, GenotypeFieldNotFound, MissingMate
 
 
 class TestVariant(unittest.TestCase):
@@ -150,6 +150,14 @@ class TestBreakpoints(unittest.TestCase):
             genotypes=["1/1"],
         )
 
+        self.assertEqual(
+            variant.start,
+            Position(chrom="chr5", pos=500),
+        )
+
+        with self.assertRaises(MissingMate):
+            variant.end
+
         variant.mate = Variant(
             chrom="chr6",
             pos="600",
@@ -161,11 +169,6 @@ class TestBreakpoints(unittest.TestCase):
             info="SVTYPE=BND;MATEID=MantaBND:0",
             format="GT",
             genotypes=["1/1"],
-        )
-
-        self.assertEqual(
-            variant.start,
-            Position(chrom="chr5", pos=500),
         )
 
         self.assertEqual(
