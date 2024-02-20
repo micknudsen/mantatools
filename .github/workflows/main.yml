@@ -31,6 +31,9 @@ jobs:
           black --check src/mantatools/
           mypy src/mantatools/
 
+          # Install package
+          pip install .
+
           # Check code coverage
           coverage run -m unittest && coverage json
           if [[ ! "$(cat coverage.json | jq .totals.percent_covered)" == "100" ]]; then
