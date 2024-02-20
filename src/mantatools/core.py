@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from mantatools.exceptions import GenotypeFieldNotFound, InfoFieldNotFound, MissingMate
 
@@ -22,6 +22,9 @@ class Variant:
     info: str
     format: str
     genotypes: List[str]
+
+    # The mate variant of a BND variant
+    mate: Optional["Variant"] = None
 
     def __post_init__(self) -> None:
         """Gather INFO and FORMAT values in dictionaries. This is convenient
@@ -71,7 +74,7 @@ class Variant:
     @property
     def end(self) -> Position:
         if self.get_info("SVTYPE") == "BND":
-            if not self.mate:
+            if self.mate is None:
                 raise MissingMate(self.id)
             return self.mate.start
         return Position(self.chrom, int(self.get_info("END")))
