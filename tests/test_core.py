@@ -61,7 +61,7 @@ class TestBreakpoints(unittest.TestCase):
 
         self.assertEqual(
             variant.end,
-            Position(chrom="chr9", pos=200),
+            Position(chrom="chr1", pos=200),
         )
 
     def test_duplication(self) -> None:
