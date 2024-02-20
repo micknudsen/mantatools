@@ -42,24 +42,133 @@ class TestBreakpoints(unittest.TestCase):
 
     def test_deletion(self) -> None:
         variant = Variant(
-            chrom="chr9",
-            pos="22496528",
+            chrom="chr1",
+            pos="100",
             id="MantaDEL",
-            ref="T",
+            ref="A",
             alt="<DEL>",
-            qual="999",
+            qual="1000",
             filter="PASS",
-            info="END=22504345;SVTYPE=DEL",
+            info="END=200;SVTYPE=DEL",
             format="GT",
             genotypes=["1/1"],
         )
 
         self.assertEqual(
             variant.start,
-            Position(chrom="chr9", pos=22496528),
+            Position(chrom="chr1", pos=100),
         )
 
         self.assertEqual(
             variant.end,
-            Position(chrom="chr9", pos=22504345),
+            Position(chrom="chr9", pos=200),
+        )
+
+    def test_duplication(self) -> None:
+        variant = Variant(
+            chrom="chr2",
+            pos="200",
+            id="MantaDUP",
+            ref="C",
+            alt="<DUP>",
+            qual="1000",
+            filter="PASS",
+            info="END=300;SVTYPE=DUP",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.start,
+            Position(chrom="chr2", pos=200),
+        )
+
+        self.assertEqual(
+            variant.end,
+            Position(chrom="chr2", pos=300),
+        )
+
+    def test_inversion(self) -> None:
+        variant = Variant(
+            chrom="chr3",
+            pos="300",
+            id="MantaINV",
+            ref="G",
+            alt="<INV>",
+            qual="1000",
+            filter="PASS",
+            info="END=400;SVTYPE=INV",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.start,
+            Position(chrom="chr3", pos=300),
+        )
+
+        self.assertEqual(
+            variant.end,
+            Position(chrom="chr3", pos=400),
+        )
+
+    def test_insertion(self) -> None:
+        variant = Variant(
+            chrom="chr4",
+            pos="400",
+            id="MantaINS",
+            ref="T",
+            alt="<INS>",
+            qual="1000",
+            filter="PASS",
+            info="END=400;SVTYPE=DUP",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.start,
+            Position(chrom="chr4", pos=400),
+        )
+
+        self.assertEqual(
+            variant.end,
+            Position(chrom="chr4", pos=400),
+        )
+
+    def test_breakend(self) -> None:
+        variant = Variant(
+            chrom="chr5",
+            pos="500",
+            id="MantaBND:0",
+            ref="A",
+            alt="]chr6:600]A",
+            qual="1000",
+            filter="PASS",
+            info="SVTYPE=BND;MATEID=MantaBND:1",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        variant.mate = Variant(
+            chrom="chr6",
+            pos="600",
+            id="MantaBND:1",
+            ref="C",
+            alt="C[chr5:500[",
+            qual="1000",
+            filter="PASS",
+            info="SVTYPE=BND;MATEID=MantaBND:0",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.start,
+            Position(chrom="chr5", pos=500),
+        )
+
+        self.assertEqual(
+            variant.end,
+            Position(chrom="chr6", pos=600),
         )
