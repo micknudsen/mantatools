@@ -69,10 +69,14 @@ class Variant:
 
     @property
     def start(self) -> Position:
+        """Return the start postion of the variant."""
         return Position(self.chrom, int(self.pos))
 
     @property
     def end(self) -> Position:
+        """Return the end position of the variant. For BND variants, this
+        is the start position of the mate. For all other variants, the
+        end position is specified in the END info field."""
         if self.get_info("SVTYPE") == "BND":
             if self.mate is None:
                 raise MissingMate(self.id)
