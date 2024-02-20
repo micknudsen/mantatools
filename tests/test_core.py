@@ -22,7 +22,7 @@ class TestVariant(unittest.TestCase):
 
     def test_get_info(self) -> None:
         self.assertTrue(self.variant.get_info("IMPRECISE"))
-        self.assertEqual(self.variant.get_info("END"), 200)
+        self.assertEqual(self.variant.get_info("END"), "200")
         self.assertEqual(self.variant.get_info("SVTYPE"), "DEL")
 
     def test_info_field_not_found(self) -> None:
