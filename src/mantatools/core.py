@@ -5,6 +5,12 @@ from mantatools.exceptions import GenotypeFieldNotFound, InfoFieldNotFound
 
 
 @dataclass
+class Position:
+    chrom: str
+    pos: int
+
+
+@dataclass
 class Variant:
     chrom: str
     pos: str
