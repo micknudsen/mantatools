@@ -36,3 +36,30 @@ class TestVariant(unittest.TestCase):
     def test_genotype_field_not_found(self) -> None:
         with self.assertRaises(GenotypeFieldNotFound):
             self.variant.get_genotype("NON_EXISTENT_GENOTYPE_FIELD")
+
+
+class TestBreakpoints(unittest.TestCase):
+
+    def test_deletion(self) -> None:
+        variant = Variant(
+            chrom="chr9",
+            pos="22496528",
+            id="MantaDEL",
+            ref="T",
+            alt="<DEL>",
+            qual="999",
+            filter="PASS",
+            info="END=22504345;SVTYPE=DEL",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.start,
+            Position(chrom="chr9", pos=22496528),
+        )
+
+        self.assertEqual(
+            variant.end,
+            Position(chrom="chr9", pos=22504345),
+        )
