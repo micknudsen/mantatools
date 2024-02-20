@@ -1,6 +1,6 @@
 import unittest
 
-from mantatools.core import Variant
+from mantatools.core import Position, Variant
 from mantatools.exceptions import InfoFieldNotFound, GenotypeFieldNotFound
 
 
