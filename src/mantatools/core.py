@@ -18,31 +18,42 @@ class Variant:
     genotypes: List[str]
 
     def __post_init__(self) -> None:
+        """Gather INFO and FORMAT values in dictionaries. This is convenient
+        for looking values up later. There is one dictionary for INFO fields
+        and one FORMAT dictionary for each sample in the VCF file."""
 
         self.info_dict: Dict[str, Union[str, bool]] = {}
-        self.genotype_dicts: List[Dict[str, str]] = []
+        self.format_dicts: List[Dict[str, str]] = []
 
         for entry in self.info.split(";"):
+            # This is a key-value entry
             if "=" in entry:
                 key, value = entry.split("=", 1)
                 self.info_dict[key] = value
+            # This is a flag entry
             else:
                 self.info_dict[entry] = True
 
         for genotype in self.genotypes:
-            genotype_dict = {}
-            for i, key in enumerate(self.format.split(":")):
-                genotype_dict[key] = genotype.split(":")[i]
-            self.genotype_dicts.append(genotype_dict)
+            self.format_dicts.append(
+                {
+                    key: value
+                    for key, value in zip(self.format.split(":"), genotype.split(":"))
+                }
+            )
 
     def get_info(self, key: str) -> Union[str, bool]:
+        """Return the value of the INFO field with the given key. If the key
+        is a flag, return True. If the key is not found, raise an exception."""
         try:
             return self.info_dict[key]
         except KeyError:
-            raise InfoFieldNotFound()
+            raise InfoFieldNotFound(key)
 
     def get_genotype(self, key: str, sample: int = 0) -> str:
+        """Return the value of the FORMAT field with the given key for the
+        given sample. If the key is not found, raise an exception."""
         try:
-            return self.genotype_dicts[sample][key]
+            return self.format_dicts[sample][key]
         except KeyError:
-            raise GenotypeFieldNotFound()
+            raise GenotypeFieldNotFound(key)
