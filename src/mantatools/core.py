@@ -105,3 +105,19 @@ class Variant:
                 left=self.start.pos,
                 right=self.start.pos,
             )
+
+    @property
+    def ci_end(self) -> Interval:
+        try:
+            left, right = str(self.get_info("CIEND")).split(",")
+            return Interval(
+                chrom=self.chrom,
+                left=self.end.pos + int(left),
+                right=self.end.pos + int(right),
+            )
+        except InfoFieldNotFound:
+            return Interval(
+                chrom=self.chrom,
+                left=self.end.pos,
+                right=self.end.pos,
+            )
