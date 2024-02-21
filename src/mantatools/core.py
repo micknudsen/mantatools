@@ -11,6 +11,13 @@ class Position:
 
 
 @dataclass
+class Interval:
+    chrom: str
+    left: int
+    right: int
+
+
+@dataclass
 class Variant:
     chrom: str
     pos: str
