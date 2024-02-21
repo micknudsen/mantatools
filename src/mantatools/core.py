@@ -127,3 +127,6 @@ class Variant:
                 left=self.end.pos,
                 right=self.end.pos,
             )
+
+    def to_bedpe(self) -> BedPE:
+        raise NotImplementedError()
