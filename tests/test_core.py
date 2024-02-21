@@ -15,7 +15,7 @@ class TestVariant(unittest.TestCase):
             alt="<DEL>",
             qual="1000",
             filter="PASS",
-            info="IMPRECISE;END=200;SVTYPE=DEL",
+            info="IMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20",
             format="GT:PR",
             genotypes=["0/1:20,15"],
         )
@@ -24,6 +24,8 @@ class TestVariant(unittest.TestCase):
         self.assertTrue(self.variant.get_info("IMPRECISE"))
         self.assertEqual(self.variant.get_info("END"), "200")
         self.assertEqual(self.variant.get_info("SVTYPE"), "DEL")
+        self.assertEqual(self.variant.get_info("CIPOS"), "-10,5")
+        self.assertEqual(self.variant.get_info("CIEND"), "-15,20")
 
     def test_info_field_not_found(self) -> None:
         with self.assertRaises(InfoFieldNotFound):
@@ -36,6 +38,23 @@ class TestVariant(unittest.TestCase):
     def test_genotype_field_not_found(self) -> None:
         with self.assertRaises(GenotypeFieldNotFound):
             self.variant.get_genotype("NON_EXISTENT_GENOTYPE_FIELD")
+
+    def test_to_bedpe(self) -> None:
+        self.assertEqual(
+            self.variant.to_bedpe(),
+            BedPE(
+                chrom_1="chr1",
+                start_1=90,
+                end_1=105,
+                chrom_2="chr1",
+                start_2=185,
+                end_2=220,
+                name="MyVariant",
+                score=1000,
+                strand_1=None,
+                strand_2=None,
+            ),
+        )
 
 
 class TestBreakpoints(unittest.TestCase):
