@@ -82,3 +82,7 @@ class Variant:
                 raise MissingMate(self.id)
             return self.mate.start
         return Position(self.chrom, int(self.get_info("END")))
+
+    @property
+    def ci_start(self) -> Interval:
+        raise NotImplementedError()
