@@ -175,3 +175,102 @@ class TestBreakpoints(unittest.TestCase):
             variant.end,
             Position(chrom="chr6", pos=600),
         )
+
+
+class TestConfidenceIntervals(unittest.TestCase):
+
+    def test_ci_start_and_ci_end(self) -> None:
+        variant = Variant(
+            chrom="chr7",
+            pos="700",
+            id="MantaDEL",
+            ref="A",
+            alt="<DEL>",
+            qual="1000",
+            filter="PASS",
+            info="END=800;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.ci_start,
+            Interval(chrom="chr7", left=790, right=805),
+        )
+
+        self.assertEqual(
+            variant.ci_end,
+            Interval(chrom="chr7", left=785, right=820),
+        )
+
+    def test_ci_start_only(self) -> None:
+        variant = Variant(
+            chrom="chr8",
+            pos="800",
+            id="MantaDEL",
+            ref="A",
+            alt="<DEL>",
+            qual="1000",
+            filter="PASS",
+            info="END=900;SVTYPE=DEL;CIPOS=-10,5",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.ci_start,
+            Interval(chrom="chr8", left=790, right=805),
+        )
+
+        self.assertEqual(
+            variant.ci_end,
+            Interval(chrom="chr8", left=900, right=900),
+        )
+
+    def test_ci_end_only(self) -> None:
+        variant = Variant(
+            chrom="chr9",
+            pos="900",
+            id="MantaDEL",
+            ref="A",
+            alt="<DEL>",
+            qual="1000",
+            filter="PASS",
+            info="END=1000;SVTYPE=DEL;CIEND=-15,20",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.ci_start,
+            Interval(chrom="chr9", left=900, right=900),
+        )
+
+        self.assertEqual(
+            variant.ci_end,
+            Interval(chrom="chr9", left=985, right=1020),
+        )
+
+    def test_no_ci_pos_or_ci_end(self) -> None:
+        variant = Variant(
+            chrom="chr10",
+            pos="1000",
+            id="MantaDEL",
+            ref="A",
+            alt="<DEL>",
+            qual="1000",
+            filter="PASS",
+            info="END=1100;SVTYPE=DEL",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.ci_start,
+            Interval(chrom="chr10", left=1000, right=1000),
+        )
+
+        self.assertEqual(
+            variant.ci_end,
+            Interval(chrom="chr10", left=1100, right=1100),
+        )
