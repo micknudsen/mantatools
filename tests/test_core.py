@@ -1,6 +1,6 @@
 import unittest
 
-from mantatools.core import Interval, Position, Variant
+from mantatools.core import BedPE, Interval, Position, Variant
 from mantatools.exceptions import InfoFieldNotFound, GenotypeFieldNotFound, MissingMate
 
 

@@ -143,4 +143,15 @@ class Variant:
             )
 
     def to_bedpe(self) -> BedPE:
-        raise NotImplementedError()
+        return BedPE(
+            chrom_1=self.ci_start.chrom,
+            start_1=self.ci_start.left - 1,
+            end_1=self.ci_start.right,
+            chrom_2=self.ci_end.chrom,
+            start_2=self.ci_end.left - 1,
+            end_2=self.ci_end.right,
+            name=self.id,
+            score=self.qual,
+            strand_1=None,
+            strand_2=None,
+        )
