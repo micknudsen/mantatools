@@ -92,6 +92,9 @@ class Variant:
 
     @property
     def ci_start(self) -> Interval:
+        """Return confidence interval for the start position. If the CIPOS
+        info field is not found, return an interval with the start position
+        as both left and right."""
         try:
             left, right = str(self.get_info("CIPOS")).split(",")
             return Interval(
@@ -108,6 +111,9 @@ class Variant:
 
     @property
     def ci_end(self) -> Interval:
+        """Return confidence interval for the end position. If the CIEND
+        info field is not found, return an interval with the end position
+        as both left and right."""
         try:
             left, right = str(self.get_info("CIEND")).split(",")
             return Interval(
