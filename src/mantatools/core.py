@@ -30,6 +30,32 @@ class BedPE:
     strand_1: Optional[str]
     strand_2: Optional[str]
 
+    @classmethod
+    def from_intervals(
+        cls,
+        left: Interval,
+        right: Interval,
+        name: str,
+        score: Optional[str],
+        strand_1: Optional[str],
+        strand_2: Optional[str],
+    ) -> "BedPE":
+        """Convenience method for creating a BedPE object from two intervals.
+        Note that the BEDPE format is 0-based and half-open, whereas the VCF
+        format is 1-based and closed."""
+        return cls(
+            chrom_1=left.chrom,
+            start_1=left.left - 1,
+            end_1=left.right,
+            chrom_2=right.chrom,
+            start_2=right.left - 1,
+            end_2=right.right,
+            name=name,
+            score=score,
+            strand_1=strand_1,
+            strand_2=strand_2,
+        )
+
 
 @dataclass
 class Variant:
@@ -143,13 +169,10 @@ class Variant:
             )
 
     def to_bedpe(self) -> BedPE:
-        return BedPE(
-            chrom_1=self.ci_start.chrom,
-            start_1=self.ci_start.left - 1,
-            end_1=self.ci_start.right,
-            chrom_2=self.ci_end.chrom,
-            start_2=self.ci_end.left - 1,
-            end_2=self.ci_end.right,
+        """Create a BEDPE representation of the variant."""
+        return BedPE.from_intervals(
+            left=self.ci_start,
+            right=self.ci_end,
             name=self.id,
             score=self.qual,
             strand_1=None,
