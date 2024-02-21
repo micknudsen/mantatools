@@ -92,4 +92,16 @@ class Variant:
 
     @property
     def ci_start(self) -> Interval:
-        raise NotImplementedError()
+        try:
+            left, right = str(self.get_info("CIPOS")).split(",")
+            return Interval(
+                chrom=self.chrom,
+                left=self.start.pos + int(left),
+                right=self.start.pos + int(right),
+            )
+        except InfoFieldNotFound:
+            return Interval(
+                chrom=self.chrom,
+                left=self.start.pos,
+                right=self.start.pos,
+            )
