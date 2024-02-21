@@ -4,4 +4,40 @@ from mantatools.core import Variant
 
 
 def parse_vcf(stream: Iterable) -> Dict[str, Variant]:
-    raise NotImplementedError()
+    """Read VCF file line by line and return a dictionary of with
+    variant IDs as keys and Variant objects as values."""
+
+    variants: Dict[str, Variant] = {}
+
+    for line in stream:
+
+        # Skip header lines
+        if line.startswith("#"):
+            continue
+
+        columns = line.split("\t")
+
+        variant = Variant(
+            chrom=columns[0],
+            pos=columns[1],
+            id=columns[2],
+            ref=columns[3],
+            alt=columns[4],
+            qual=columns[5],
+            filter=columns[6],
+            info=columns[7],
+            format=columns[8],
+            genotypes=columns[9:],
+        )
+
+        variants[variant.id] = variant
+
+        # If the variant is a BND, and if we have already encountered
+        # the mate variant, then link the two variants together.
+        if variant.get_info("SVTYPE") == "BND":
+            mate_id = str(variant.get_info("MATEID"))
+            if mate_id in variants:
+                variant.mate = variants[mate_id]
+                variants[mate_id].mate = variant
+
+    return variants
