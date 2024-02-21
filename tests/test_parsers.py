@@ -91,20 +91,38 @@ class TestVcfParser(unittest.TestCase):
 
         self.variants = parse_vcf(vcf_lines)
 
-    def test_variant_id(self) -> None:
-        self.assertEqual(self.variants[0].id, "MantaDEL")
-        self.assertEqual(self.variants[1].id, "MantaBND:0")
-        self.assertEqual(self.variants[2].id, "MantaDUP")
-        self.assertEqual(self.variants[3].id, "MantaBND:1")
-
     def test_variant_start(self) -> None:
-        self.assertEqual(self.variants[0].start, Position(chrom="chr1", pos=100))
-        self.assertEqual(self.variants[1].start, Position(chrom="chr2", pos=200))
-        self.assertEqual(self.variants[2].start, Position(chrom="chr3", pos=300))
-        self.assertEqual(self.variants[3].start, Position(chrom="chr4", pos=400))
+        self.assertEqual(
+            self.variants["MantaDEL"].start,
+            Position(chrom="chr1", pos=100),
+        )
+        self.assertEqual(
+            self.variants["MantaBND:0"].start,
+            Position(chrom="chr2", pos=200),
+        )
+        self.assertEqual(
+            self.variants["MantaDUP"].start,
+            Position(chrom="chr3", pos=300),
+        )
+        self.assertEqual(
+            self.variants["MantaBND:1"].start,
+            Position(chrom="chr4", pos=400),
+        )
 
     def test_variant_end(self) -> None:
-        self.assertEqual(self.variants[0].end, Position(chrom="chr1", pos=200))
-        self.assertEqual(self.variants[1].end, Position(chrom="chr4", pos=400))
-        self.assertEqual(self.variants[2].end, Position(chrom="chr3", pos=400))
-        self.assertEqual(self.variants[3].end, Position(chrom="chr2", pos=200))
+        self.assertEqual(
+            self.variants["MantaDEL"].end,
+            Position(chrom="chr1", pos=200),
+        )
+        self.assertEqual(
+            self.variants["MantaBND:0"].end,
+            Position(chrom="chr4", pos=400),
+        )
+        self.assertEqual(
+            self.variants["MantaDUP"].end,
+            Position(chrom="chr3", pos=400),
+        )
+        self.assertEqual(
+            self.variants["MantaBND:1"].end,
+            Position(chrom="chr2", pos=200),
+        )
