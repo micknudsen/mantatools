@@ -1,6 +1,6 @@
 import unittest
 
-from mantatools.core import Position, Variant
+from mantatools.core import Interval, Position, Variant
 from mantatools.exceptions import InfoFieldNotFound, GenotypeFieldNotFound, MissingMate
 
 
@@ -195,7 +195,7 @@ class TestConfidenceIntervals(unittest.TestCase):
 
         self.assertEqual(
             variant.ci_start,
-            Interval(chrom="chr7", left=790, right=805),
+            Interval(chrom="chr7", left=690, right=705),
         )
 
         self.assertEqual(
