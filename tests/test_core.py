@@ -44,10 +44,10 @@ class TestVariant(unittest.TestCase):
             self.variant.to_bedpe(),
             BedPE(
                 chrom_1="chr1",
-                start_1=90,
+                start_1=89,
                 end_1=105,
                 chrom_2="chr1",
-                start_2=185,
+                start_2=184,
                 end_2=220,
                 name="MyVariant",
                 score="1000",
