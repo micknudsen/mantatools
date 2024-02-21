@@ -15,7 +15,7 @@ def parse_vcf(stream: Iterable) -> Dict[str, Variant]:
         if line.startswith("#"):
             continue
 
-        columns = line.split("\t")
+        columns = line.rstrip("\n").split("\t")
 
         variant = Variant(
             chrom=columns[0],
