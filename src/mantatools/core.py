@@ -18,6 +18,20 @@ class Interval:
 
 
 @dataclass
+class BedPE:
+    chrom_1: str
+    start_1: int
+    end_1: int
+    chrom_2: str
+    start_2: int
+    end_2: int
+    name: str
+    score: Optional[str]
+    strand_1: Optional[str]
+    strand_2: Optional[str]
+
+
+@dataclass
 class Variant:
     chrom: str
     pos: str
