@@ -66,7 +66,7 @@ class TestVcfParser(unittest.TestCase):
                     "<DUP>",
                     ".",
                     "PASS",
-                    "END=400;SVTYPE=BND",
+                    "END=400;SVTYPE=DUP",
                     "PR:SR",
                     "45,0:30,0",
                     "25,15:45,45",
