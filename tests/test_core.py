@@ -50,7 +50,7 @@ class TestVariant(unittest.TestCase):
                 start_2=185,
                 end_2=220,
                 name="MyVariant",
-                score=1000,
+                score="1000",
                 strand_1=None,
                 strand_2=None,
             ),
