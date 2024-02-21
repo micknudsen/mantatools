@@ -293,3 +293,44 @@ class TestConfidenceIntervals(unittest.TestCase):
             variant.ci_end,
             Interval(chrom="chr10", left=1100, right=1100),
         )
+
+
+class TestBedPE(unittest.TestCase):
+
+    def test_str_method_with_optional_fields(self) -> None:
+        bedpe = BedPE(
+            chrom_1="chr1",
+            start_1=100,
+            end_1=200,
+            chrom_2="chr3",
+            start_2=400,
+            end_2=500,
+            name="MyVariant",
+            score="1000",
+            strand_1="+",
+            strand_2="-",
+        )
+
+        self.assertEqual(
+            bedpe.__str__(),
+            "chr1\t100\t200\tchr3\t400\t500\tMyVariant\t1000\t+\t-",
+        )
+
+    def test_str_method_without_optional_fields(self) -> None:
+        bedpe = BedPE(
+            chrom_1="chr1",
+            start_1=100,
+            end_1=200,
+            chrom_2="chr3",
+            start_2=400,
+            end_2=500,
+            name="MyVariant",
+            score=None,
+            strand_1=None,
+            strand_2=None,
+        )
+
+        self.assertEqual(
+            bedpe.__str__(),
+            "chr1\t100\t200\tchr3\t400\t500\tMyVariant\t.\t.\t.",
+        )
