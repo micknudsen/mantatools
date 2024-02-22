@@ -56,6 +56,12 @@ class TestVariant(unittest.TestCase):
             ),
         )
 
+    def test_str_method(self) -> None:
+        self.assertEqual(
+            self.variant.__str__(),
+            "chr1\t100\tMyVariant\tA\t<DEL>\t1000\tPASS\tIMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20\tGT:PR\t0/1:20,15",
+        )
+
 
 class TestBreakpoints(unittest.TestCase):
 
