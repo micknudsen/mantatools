@@ -8,7 +8,7 @@ setup(
     test_suite="tests",
     entry_points={"console_scripts": ["mantatools = mantatools.client:run"]},
     python_requires=">=3.8",
-    install_requires=["click"],
+    install_requires=["click", "pysam"],
     author="Michael Knudsen",
     author_email="micknudsen@gmail.com",
 )
