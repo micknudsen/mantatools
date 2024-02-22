@@ -3,7 +3,7 @@ import gzip
 import click
 
 from mantatools.exceptions import InfoFieldNotFound
-from mantatools.parsers import parse_vcf
+from mantatools.parser import parse_vcf
 
 
 @click.group()
