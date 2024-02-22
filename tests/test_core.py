@@ -27,6 +27,10 @@ class TestVariant(unittest.TestCase):
         self.assertEqual(self.variant.get_info("CIPOS"), "-10,5")
         self.assertEqual(self.variant.get_info("CIEND"), "-15,20")
 
+    def test_set_info(self) -> None:
+        self.variant.set_info(key="SOME_NEW_FIELD", value="SOME_NEW_VALUE")
+        self.assertEqual(self.variant.get_info("SOME_NEW_FIELD"), "SOME_NEW_VALUE")
+
     def test_info_field_not_found(self) -> None:
         with self.assertRaises(InfoFieldNotFound):
             self.variant.get_info("NON_EXISTENT_INFO_FIELD")
