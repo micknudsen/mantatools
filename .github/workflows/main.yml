@@ -27,12 +27,12 @@ jobs:
           sudo apt-get install jq
           pip install coverage mypy black
 
+          # Install package
+          pip install .
+
           # Check code quality
           black --check src/mantatools/
           mypy src/mantatools/
-
-          # Install package
-          pip install .
 
           # Check code coverage
           coverage run -m unittest && coverage json
