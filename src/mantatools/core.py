@@ -114,6 +114,22 @@ class Variant:
                 }
             )
 
+    def __str__(self) -> str:
+        return "\t".join(
+            [
+                self.chrom,
+                self.pos,
+                self.id,
+                self.ref,
+                self.alt,
+                self.qual,
+                self.filter,
+                self.info,
+                self.format,
+                *self.genotypes,
+            ]
+        )
+
     def get_info(self, key: str) -> Union[str, bool]:
         """Return the value of the INFO field with the given key. If the key
         is a flag, return True. If the key is not found, raise an exception."""
