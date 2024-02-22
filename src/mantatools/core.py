@@ -138,6 +138,10 @@ class Variant:
         except KeyError:
             raise InfoFieldNotFound(key)
 
+    def set_info(self, key: str, value: Union[str, bool]) -> None:
+        """Set the value of the INFO field with the given key.."""
+        self.info_dict[key] = value
+
     def get_genotype(self, key: str, sample: int = 0) -> str:
         """Return the value of the FORMAT field with the given key for the
         given sample. If the key is not found, raise an exception."""
