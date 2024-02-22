@@ -23,7 +23,7 @@ from mantatools.core import Variant
 from mantatools.validation import check_contig_support
 
 
-class TestVariantVerification(unittest.TestCase):
+class TestContigSupport(unittest.TestCase):
     def setUp(self) -> None:
         self.header = AlignmentHeader.from_dict(
             {
