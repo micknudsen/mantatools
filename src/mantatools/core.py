@@ -124,7 +124,12 @@ class Variant:
                 self.alt,
                 self.qual,
                 self.filter,
-                self.info,
+                ";".join(
+                    [
+                        f"{key}={value}" if isinstance(value, str) else key
+                        for key, value in self.info_dict.items()
+                    ]
+                ),
                 self.format,
                 *self.genotypes,
             ]
