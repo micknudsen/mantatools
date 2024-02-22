@@ -41,7 +41,6 @@ def create_contigs_fastq(vcf: str) -> None:
 @click.option("--vcf", type=click.Path(exists=True), required=True)
 @click.option("--bam", type=click.Path(exists=True), required=True)
 def validate_variants(vcf: str, bam: str) -> None:
-
     alignments: Dict[str, List[AlignedSegment]] = defaultdict(list)
     for alignment in AlignmentFile(bam, "rb"):
         if alignment.query_name is None:
@@ -51,24 +50,21 @@ def validate_variants(vcf: str, bam: str) -> None:
     with gzip.open(vcf, "rt") as stream:
         variants = parse_vcf(stream)
 
-    INFO_FIELD_DEFINITION = '##INFO=<ID=SUPPORTED,Number=0,Type=Flag,Description="Supported by contig breakpoints">'
     added_info_field = False
-
     with gzip.open(vcf, "rt") as f:
         for line in f.read().splitlines():
             # This is a header line
             if line.startswith("#"):
-
                 # Add the SUPPORTED INFO field definition together with
                 # the definitons of the other INFO fields.
                 if line.startswith("##INFO") and not added_info_field:
-                    print(INFO_FIELD_DEFINITION)
+                    print(
+                        '##INFO=<ID=SUPPORTED,Number=0,Type=Flag,Description="Supported by contig breakpoints">'
+                    )
                     added_info_field = True
-
                 # Keep all existing header lines
                 print(line)
                 continue
-
             # We have reached the end of the header
             break
 
