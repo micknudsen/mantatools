@@ -66,7 +66,7 @@ class TestContigSupport(unittest.TestCase):
             alt="<DEL>",
             qual="999",
             filter="PASS",
-            info="END=57281486;SVTYPE=DEL;SVLEN=-1980;CONTIG=AATAGGGATTGACATAGCTCTGGCAGAAAAGTCCTGGGGAAGTTTCTCATTGGCTTAGCTGGAGGTAAACTCCCAGCTCTGCACTAATCACTGGGCCAGAGGCATGGCTGTTTGGACAAAAAGGAACAGGTTCTGCTCATTATATCTAGGAAGATCCTACTTTGTTTCAGGCACTGGGCTGACATCTATTCTCTCTTATCTTTTCGACATTGAGAAGTAGACATCATGATCTGTCCTTTATAGATGAAGAGACAAAGGCCAACACTCCTCTCCCAACACTGGACAT;GCF=0.455326",
+            info="END=57281486;SVTYPE=DEL;SVLEN=-1980;CONTIG=AATAGGGATTGACATAGCTCTGGCAGAAAAGTCCTGGGGAAGTTTCTCATTGGCTTAGCTGGAGGTAAACTCCCAGCTCTGCACTAATCACTGGGCCAGAGGCATGGCTGTTTGGACAAAAAGGAACAGGTTCTGCTCATTATATCTAGGAAGATCCTACTTTGTTTCAGGCACTGGGCTGACATCTATTCTCTCTTATCTTTTCGACATTGAGAAGTAGACATCATGATCTGTCCTTTATAGATGAAGAGACAAAGGCCAACACTCCTCTCCCAACACTGGACAT",
             format="GT:FT:GQ:PL:PR:SR",
             genotypes=["1/1:PASS:77:999,80,0:0,26:2,19"],
         )
@@ -121,6 +121,29 @@ class TestContigSupport(unittest.TestCase):
         ]
 
         self.assertTrue(
+            check_contig_support(
+                variant=variant,
+                alignments=alignments,
+            )
+        )
+
+    def test_check_contig_support_false(self) -> None:
+        variant = Variant(
+            chrom="chr13",
+            pos="16000650",
+            id="MantaDEL:10:24582:24583:0:0:0",
+            ref="A",
+            alt="<DEL>",
+            qual="39",
+            filter="PASS",
+            info="END=16006192;SVTYPE=DEL;SVLEN=-5542;IMPRECISE;CIPOS=-230,231;CIEND=-147,148",
+            format="GT:FT:GQ:PL:PR",
+            genotypes=["0/1:PASS:39:89,0,47:4,5"],
+        )
+
+        alignments = []
+
+        self.assertFalse(
             check_contig_support(
                 variant=variant,
                 alignments=alignments,
