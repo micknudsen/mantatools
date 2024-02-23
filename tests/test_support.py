@@ -57,7 +57,7 @@ class TestContigSupport(unittest.TestCase):
             }
         )
 
-    def test_supported_true(self) -> None:
+    def test_check_contig_support_true(self) -> None:
         variant = Variant(
             chrom="chr18",
             pos="57279506",
