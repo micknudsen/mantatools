@@ -1,7 +1,12 @@
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Union
 
-from mantatools.exceptions import GenotypeFieldNotFound, InfoFieldNotFound, MissingMate
+from mantatools.exceptions import (
+    FieldNotFound,
+    GenotypeFieldNotFound,
+    InfoFieldNotFound,
+    MissingMate,
+)
 
 
 @dataclass
@@ -40,6 +45,7 @@ class BedPE:
         score: Optional[str],
         strand_1: Optional[str],
         strand_2: Optional[str],
+        fields: Optional[Dict[str, str]] = None,
     ) -> "BedPE":
         """Convenience method for creating a BedPE object from two intervals.
         Note that the BEDPE format is 0-based and half-open, whereas the VCF
@@ -55,6 +61,7 @@ class BedPE:
             score=score,
             strand_1=strand_1,
             strand_2=strand_2,
+            fields=fields,
         )
 
     def __str__(self) -> str:
@@ -210,8 +217,24 @@ class Variant:
                 right=self.end.pos,
             )
 
-    def to_bedpe(self) -> BedPE:
+    def to_bedpe(self, include_fields: Optional[List[str]] = None) -> BedPE:
         """Create a BEDPE representation of the variant."""
+
+        fields: Dict[str, str] = {}
+        if include_fields is not None:
+            for name in include_fields:
+                match name:
+                    case "REF":
+                        fields[name] = self.ref
+                    case "ALT":
+                        fields[name] = self.alt
+                    case "QUAL":
+                        fields[name] = self.qual
+                    case "FILTER":
+                        fields[name] = self.filter
+                    case _:
+                        raise FieldNotFound(name)
+
         return BedPE.from_intervals(
             left=self.ci_start,
             right=self.ci_end,
@@ -219,4 +242,5 @@ class Variant:
             score=self.qual,
             strand_1=None,
             strand_2=None,
+            fields=fields if fields else None,
         )
