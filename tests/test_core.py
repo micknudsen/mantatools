@@ -388,3 +388,28 @@ class TestBedPE(unittest.TestCase):
             bedpe.__str__(),
             "chr1\t100\t200\tchr3\t400\t500\tMyVariant\t.\t.\t.",
         )
+
+    def test_str_method_with_extra_fields(self) -> None:
+        bedpe = BedPE(
+            chrom_1="chr1",
+            start_1=100,
+            end_1=200,
+            chrom_2="chr3",
+            start_2=400,
+            end_2=500,
+            name="MyVariant",
+            score="1000",
+            strand_1="+",
+            strand_2="-",
+            fields={
+                "REF": "A",
+                "ALT": "<DEL>",
+                "QUAL": "1000",
+                "FILTER": "PASS",
+            },
+        )
+
+        self.assertEqual(
+            bedpe.__str__(),
+            "chr1\t100\t200\tchr3\t400\t500\tMyVariant\t1000\t+\t-\tREF=A;ALT=<DEL>;QUAL=1000;FILTER=PASS",
+        )
