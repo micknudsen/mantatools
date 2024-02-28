@@ -14,11 +14,11 @@ build:
 requirements:
   host:
     - pip
-    - python >=3.9
+    - python >=3.10
   run:
     - click
     - pysam
-    - python >=3.9
+    - python >=3.10
 
 about:
   home: https://github.com/micknudsen/mantatools
