@@ -65,20 +65,20 @@ class BedPE:
         )
 
     def __str__(self) -> str:
-        return "\t".join(
-            [
-                self.chrom_1,
-                str(self.start_1),
-                str(self.end_1),
-                self.chrom_2,
-                str(self.start_2),
-                str(self.end_2),
-                self.name,
-                self.score if self.score is not None else ".",
-                self.strand_1 if self.strand_1 is not None else ".",
-                self.strand_2 if self.strand_2 is not None else ".",
-            ]
-        )
+
+        columns = [
+            self.chrom_1,
+            str(self.start_1),
+            str(self.end_1),
+            self.chrom_2,
+            str(self.start_2),
+            str(self.end_2),
+            self.name,
+            self.score if self.score is not None else ".",
+            self.strand_1 if self.strand_1 is not None else ".",
+            self.strand_2 if self.strand_2 is not None else ".",
+        ]
+        return "\t".join(columns)
 
 
 @dataclass
