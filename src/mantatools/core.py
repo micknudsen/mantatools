@@ -65,7 +65,6 @@ class BedPE:
         )
 
     def __str__(self) -> str:
-
         columns = [
             self.chrom_1,
             str(self.start_1),
@@ -78,6 +77,10 @@ class BedPE:
             self.strand_1 if self.strand_1 is not None else ".",
             self.strand_2 if self.strand_2 is not None else ".",
         ]
+        if self.fields is not None:
+            columns.append(
+                ";".join([f"{key}={value}" for key, value in self.fields.items()])
+            )
         return "\t".join(columns)
 
 
