@@ -1,7 +1,12 @@
 import unittest
 
 from mantatools.core import BedPE, Interval, Position, Variant
-from mantatools.exceptions import InfoFieldNotFound, GenotypeFieldNotFound, MissingMate
+from mantatools.exceptions import (
+    FieldNotFound,
+    InfoFieldNotFound,
+    GenotypeFieldNotFound,
+    MissingMate,
+)
 
 
 class TestVariant(unittest.TestCase):
@@ -89,6 +94,10 @@ class TestVariant(unittest.TestCase):
                 },
             ),
         )
+
+    def test_to_bedpe_field_not_found(self) -> None:
+        with self.assertRaises(FieldNotFound):
+            self.variant.to_bedpe(include_fields=["NON_EXISTENT_FIELD"])
 
     def test_str_method(self) -> None:
         self.assertEqual(
