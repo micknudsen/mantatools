@@ -60,6 +60,36 @@ class TestVariant(unittest.TestCase):
             ),
         )
 
+    def test_to_bedpe_with_extra_fields(self) -> None:
+        self.assertEqual(
+            self.variant.to_bedpe(
+                include_fields=[
+                    "REF",
+                    "ALT",
+                    "QUAL",
+                    "FILTER",
+                ]
+            ),
+            BedPE(
+                chrom_1="chr1",
+                start_1=89,
+                end_1=105,
+                chrom_2="chr1",
+                start_2=184,
+                end_2=220,
+                name="MyVariant",
+                score="1000",
+                strand_1=None,
+                strand_2=None,
+                fields={
+                    "REF": "A",
+                    "ALT": "<DEL>",
+                    "QUAL": "1000",
+                    "FILTER": "PASS",
+                },
+            ),
+        )
+
     def test_str_method(self) -> None:
         self.assertEqual(
             self.variant.__str__(),
