@@ -29,6 +29,7 @@ class BedPE:
     score: Optional[str]
     strand_1: Optional[str]
     strand_2: Optional[str]
+    fields: Optional[Dict[str, str]] = None
 
     @classmethod
     def from_intervals(
