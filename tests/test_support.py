@@ -139,7 +139,7 @@ class TestContigSupport(unittest.TestCase):
             )
         )
 
-    def test_check_contig_support_false(self) -> None:
+    def test_check_contig_support_false_1(self) -> None:
         variant = Variant(
             chrom="chr13",
             pos="16000650",
@@ -154,6 +154,58 @@ class TestContigSupport(unittest.TestCase):
         )
 
         alignments = []
+
+        self.assertFalse(
+            check_contig_support(
+                variant=variant,
+                alignments=alignments,
+            )
+        )
+
+    def test_check_contig_support_false_2(self) -> None:
+        variant = Variant(
+            chrom="chr1",
+            pos="34102573",
+            id="MantaDEL:2026:0:0:0:2:0",
+            ref="GATCCAGCCATATCCCTGTAATCCGGCCATATCCCTGTGATCCAACCATATCCCTGTAATCCGGCCATATCCCTGTAATCCAACCATATCCCTGTA",
+            alt="G",
+            qual="528",
+            filter="PASS",
+            info="END=34102668;SVTYPE=DEL;SVLEN=-95;CIGAR=1M95D;CONTIG=ACCATAGTCCTCAAAGCTTTAAATGAATGGGTACCCAGATGCCTGTCCACCTCTTCTCCTATCTCTTGTCCCCTCATCCCTGTGATCCAACCATATCCCTGTGATCCGGCCATATCCCTGTAATCCGGCCATGCTGGACCTTTGCATTTGCCAAGACTTCAGCCCAGAAAATGTTTCCCCAGTAGCCATGGGACCCTTACTTATTTCCGGTGTCTA;CIPOS=0,4;HOMLEN=4;HOMSEQ=ATCC",
+            format="GT:FT:GQ:PL:PR:SR",
+            genotypes=["0/1:PASS:55:578,0,52:14,0:30,16"],
+        )
+
+        alignments = [
+            AlignedSegment.from_dict(
+                {
+                    "name": "MantaDEL:2026:0:0:0:2:0",
+                    "flag": "0",
+                    "ref_name": "chr1",
+                    "ref_pos": "34102641",
+                    "map_quality": "60",
+                    "cigar": "75S141M",
+                    "next_ref_name": "*",
+                    "next_ref_pos": "0",
+                    "length": "0",
+                    "seq": "ACCATAGTCCTCAAAGCTTTAAATGAATGGGTACCCAGATGCCTGTCCACCTCTTCTCCTATCTCTTGTCCCCTCATCCCTGTGATCCAACCATATCCCTGTGATCCGGCCATATCCCTGTAATCCGGCCATGCTGGACCTTTGCATTTGCCAAGACTTCAGCCCAGAAAATGTTTCCCCAGTAGCCATGGGACCCTTACTTATTTCCGGTGTCTA",
+                    "qual": "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+                    "tags": [
+                        "NM:i:2",
+                        "ms:i:262",
+                        "AS:i:262",
+                        "nn:i:0",
+                        "tp:A:P",
+                        "cm:i:28",
+                        "s1:i:173",
+                        "s2:i:0",
+                        "de:f:0.0142",
+                        "rl:i:0",
+                    ],
+                },
+                header=self.header,
+            )
+        ]
 
         self.assertFalse(
             check_contig_support(
