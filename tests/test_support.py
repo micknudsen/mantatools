@@ -57,7 +57,7 @@ class TestContigSupport(unittest.TestCase):
             }
         )
 
-    def test_check_contig_support_true(self) -> None:
+    def test_check_contig_support_true_1(self) -> None:
         """This is an example of a clear-cut case, where the contig supports the
         variant. The contig remaps as two soft-clipped reads, one at the start
         and one at the end of the contig, with the positions of the soft-clipped
@@ -130,6 +130,61 @@ class TestContigSupport(unittest.TestCase):
                         "s2:i:0",
                         "de:f:0",
                         "SA:Z:chr18,57281487,+,139S147M,60,0;",
+                        "rl:i:0",
+                    ],
+                },
+                header=self.header,
+            ),
+        ]
+
+        self.assertTrue(
+            check_contig_support(
+                variant=variant,
+                alignments=alignments,
+            )
+        )
+
+    def test_check_contig_support_true_2(self) -> None:
+        """This is an example of a clear-cut case, where the contig supports the
+        variant. The contig remaps as a single which spans the entire variant."""
+
+        variant = Variant(
+            chrom="chr4",
+            pos="1092989",
+            id="MantaDEL:31576:0:0:0:0:0",
+            ref="CCAGGGTCTGCGTGCTCAGTGCTGACGCAGCCTGTGGTAGGGCAGAGGCTG",
+            alt="C",
+            qual="999",
+            filter="PASS",
+            info="END=1093039;SVTYPE=DEL;SVLEN=-50;CIGAR=1M50D;CONTIG=ACTCACGCGGACTCTCGCCAAGAGGCCAGGAGAGGCGGCTGCCTGGTCCGGAGCACACTTCTCACTCTTCGGTTCAATACCAGTTCTCCTCCATGGAGTGGCCTGTGCCTGCATTCGTCCACATGAGCTCCCGACTACGCCAGGACGGTGGATGGAACGGATCTTAGAGGATTACTGGGAAGAGGAAGACGTTTAATTGTTACCAACTAGACTAGGAAGGTGGACCAGGGCAGGCAGTGGCTGAGGTGGTTTGTTGACGCTGTCCCAGGGCAGGTCCTGAGGCCTGAGC",
+            format="GT:FT:GQ:PL:PR:SR",
+            genotypes=["1/1:PASS:108:999,111,0:0,0:0,41"],
+        )
+
+        alignments = [
+            AlignedSegment.from_dict(
+                {
+                    "name": "MantaDEL:31576:0:0:0:0:0",
+                    "flag": "0",
+                    "ref_name": "chr4",
+                    "ref_pos": "1092844",
+                    "map_quality": "60",
+                    "cigar": "146M50D143M",
+                    "next_ref_name": "*",
+                    "next_ref_pos": "0",
+                    "length": "0",
+                    "seq": "ACTCACGCGGACTCTCGCCAAGAGGCCAGGAGAGGCGGCTGCCTGGTCCGGAGCACACTTCTCACTCTTCGGTTCAATACCAGTTCTCCTCCATGGAGTGGCCTGTGCCTGCATTCGTCCACATGAGCTCCCGACTACGCCAGGACGGTGGATGGAACGGATCTTAGAGGATTACTGGGAAGAGGAAGACGTTTAATTGTTACCAACTAGACTAGGAAGGTGGACCAGGGCAGGCAGTGGCTGAGGTGGTTTGTTGACGCTGTCCCAGGGCAGGTCCTGAGGCCTGAGC",
+                    "qual": "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+                    "tags": [
+                        "NM:i:53",
+                        "ms:i:534",
+                        "AS:i:474",
+                        "nn:i:0",
+                        "tp:A:P",
+                        "cm:i:31",
+                        "s1:i:220",
+                        "s2:i:0",
+                        "de:f:0.0138",
                         "rl:i:0",
                     ],
                 },
