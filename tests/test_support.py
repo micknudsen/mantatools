@@ -58,6 +58,11 @@ class TestContigSupport(unittest.TestCase):
         )
 
     def test_check_contig_support_true(self) -> None:
+        """This is an example of a clear-cut case, where the contig supports the
+        variant. The contig remaps as two soft-clipped reads, one at the start
+        and one at the end of the contig, with the positions of the soft-clipped
+        bases exactly matching the breakpoints of the variant."""
+
         variant = Variant(
             chrom="chr18",
             pos="57279506",
@@ -140,6 +145,9 @@ class TestContigSupport(unittest.TestCase):
         )
 
     def test_check_contig_support_false_1(self) -> None:
+        """This is an example of an IMPRECISE variant which by definitions does not
+        have a contig seqeunce. Thus is variant is obviously not supported by one."""
+
         variant = Variant(
             chrom="chr13",
             pos="16000650",
@@ -163,6 +171,9 @@ class TestContigSupport(unittest.TestCase):
         )
 
     def test_check_contig_support_false_2(self) -> None:
+        """This is an example of a variant not supported by the contig. The primary alignment
+        does not span the variant, and there is no secondary alignment."""
+
         variant = Variant(
             chrom="chr1",
             pos="34102573",
