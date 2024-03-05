@@ -36,7 +36,6 @@ jobs:
 
           # Check code coverage
           coverage run -m unittest && coverage json
-          cat coverage.json
           if [[ ! "$(cat coverage.json | jq .totals.percent_covered)" == "100" ]]; then
             echo "Coverage is below 100%"
             exit 1
