@@ -24,9 +24,7 @@ def check_contig_support(variant: Variant, alignments: List[AlignedSegment]) -> 
                 return (2, abs(int(variant.get_info(key="SVLEN")))) in cigartuples
 
             case _:
-                raise NotImplementedError(
-                    f"SVTYPE {variant.get_info(key='SVTYPE')} is not yet supported"
-                )
+                return False
 
     # The contig maps to the reference, and there is a least
     # one supplementary alignment.
