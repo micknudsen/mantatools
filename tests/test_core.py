@@ -1,7 +1,7 @@
 import unittest
 
-from mantatools.core import BedPE, Interval, Position, Variant
-from mantatools.exceptions import (
+from svtoolbox.core import BedPE, Interval, Position, Variant
+from svtoolbox.exceptions import (
     FieldNotFound,
     InfoFieldNotFound,
     GenotypeFieldNotFound,

@@ -7,9 +7,9 @@ from typing import Dict, List, Optional
 
 from pysam import AlignedSegment, AlignmentFile
 
-from mantatools.exceptions import InfoFieldNotFound, MantaToolsException
-from mantatools.parser import parse_vcf
-from mantatools.validation import check_contig_support
+from svtoolbox.exceptions import InfoFieldNotFound, SVToolBoxException
+from svtoolbox.parser import parse_vcf
+from svtoolbox.validation import check_contig_support
 
 
 @click.group()
@@ -49,7 +49,7 @@ def validate_variants(vcf: str, bam: str) -> None:
     alignments: Dict[str, List[AlignedSegment]] = defaultdict(list)
     for alignment in AlignmentFile(bam, "rb"):
         if alignment.query_name is None:
-            raise MantaToolsException("Missing query name in alignment")
+            raise SVToolBoxException("Missing query name in alignment")
         alignments[alignment.query_name].append(alignment)
 
     with gzip.open(vcf, "rt") as stream:

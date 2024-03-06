@@ -19,8 +19,8 @@ import unittest
 
 from pysam import AlignedSegment, AlignmentHeader
 
-from mantatools.core import Variant
-from mantatools.validation import check_contig_support
+from svtoolbox.core import Variant
+from svtoolbox.validation import check_contig_support
 
 
 class TestContigSupport(unittest.TestCase):

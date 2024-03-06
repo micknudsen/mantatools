@@ -1,7 +1,7 @@
 import unittest
 
-from mantatools.core import Position
-from mantatools.parser import parse_vcf
+from svtoolbox.core import Position
+from svtoolbox.parser import parse_vcf
 
 
 class TestVcfParser(unittest.TestCase):

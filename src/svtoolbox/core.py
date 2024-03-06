@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Union
 
-from mantatools.exceptions import (
+from svtoolbox.exceptions import (
     FieldNotFound,
     GenotypeFieldNotFound,
     InfoFieldNotFound,
