@@ -1,10 +1,10 @@
 package:
-  name: mantatools
+  name: svtoolbox
   version: 'v0.0_alpha1'
 
 source:
   git_rev: v0.0_alpha1
-  git_url: git@github.com:micknudsen/mantatools.git
+  git_url: git@github.com:micknudsen/svtoolbox.git
 
 build:
   noarch: python
@@ -21,4 +21,4 @@ requirements:
     - python >=3.10
 
 about:
-  home: https://github.com/micknudsen/mantatools
+  home: https://github.com/micknudsen/svtoolbox
