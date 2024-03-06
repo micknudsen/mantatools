@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="svtoolbox",
-    version="0.0-alpha1",
+    version="v0.0-alpha1",
     packages=find_packages("src"),
     package_dir={"": "src"},
     test_suite="tests",
