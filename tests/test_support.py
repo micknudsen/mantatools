@@ -199,6 +199,61 @@ class TestContigSupport(unittest.TestCase):
             )
         )
 
+    def test_check_contig_support_true_3(self) -> None:
+        """This is an insertion with lots of soft-clipped reads on both sides of the breakpoint. The
+        conting remaps as a single read which spans the entire variant."""
+
+        variant = Variant(
+            chrom="chr6",
+            pos="96497539",
+            id="MantaINS:53098:0:0:0:0:0",
+            ref="C",
+            alt="CATTTGCTGAGGAGTGCTTTACTTCCGATTATGTGGTCAATTTTAGAATAAGTGTGATGTGGTGCTGAGA",
+            qual="640",
+            filter="PASS",
+            info="END=96497729;SVTYPE=INS;SVLEN=69;CIGAR=1M69I;CONTIG=TTTGTTCTCATTGGTTTCAAAGAACATCTTTTTTCCTGCCTTCATTTTTTTATGTACCCAGTAGTCATTCAGGGGCAGGTTGCTCAGTTTCCATGTAGTTGAGCAGTTTTGAATGAGTTTCTTAATCCTGAATTCTAATTTGATTGCACTGTGGTCTGAGACACAGTTTGTTGTGGTTTCTGTTCTTTTACATTTGCTGAGGAGTGCTTTACTTCCGATTATGTGGTCAATTTTAGAATAAGTGTGATGTGGTGCTGAGAAGAATGTATATTCTGTTGATTTTGGCATGGAGAGTTCTGTAGATGTCTATTAGGTCCACTTGGTGCAGAGTTGAGTTCAAGTCCTGTATATCCTTGTTAACCTTCTGTCTCGTTGATTTTTCTAATATTGACAGTAGGGTGTTAAAGTCTCCC",
+            format="GT:FT:GQ:PL:PR:SR:DHFC:DHFFC:DHBFC",
+            genotypes=["1/1:PASS:39:693,42,0:0,0:0,15:0.451613:0.4375:0.451613"],
+        )
+
+        alignments = [
+            AlignedSegment.from_dict(
+                {
+                    "name": "MantaINS:53008:0:0:0:0:0",
+                    "flag": "0",
+                    "ref_name": "chr6",
+                    "ref_pos": "96497539",
+                    "map_quality": "60",
+                    "cigar": "191M69I148M5S",
+                    "next_ref_name": "*",
+                    "next_ref_pos": "0",
+                    "length": "0",
+                    "seq": "TTTGTTCTCATTGGTTTCAAAGAACATCTTTTTTCCTGCCTTCATTTTTTTATGTACCCAGTAGTCATTCAGGGGCAGGTTGCTCAGTTTCCATGTAGTTGAGCAGTTTTGAATGAGTTTCTTAATCCTGAATTCTAATTTGATTGCACTGTGGTCTGAGACACAGTTTGTTGTGGTTTCTGTTCTTTTACATTTGCTGAGGAGTGCTTTACTTCCGATTATGTGGTCAATTTTAGAATAAGTGTGATGTGGTGCTGAGAAGAATGTATATTCTGTTGATTTTGGCATGGAGAGTTCTGTAGATGTCTATTAGGTCCACTTGGTGCAGAGTTGAGTTCAAGTCCTGTATATCCTTGTTAACCTTCTGTCTCGTTGATTTTTCTAATATTGACAGTAGGGTGTTAAAGTCTCCC",
+                    "qual": "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+                    "tags": [
+                        "NM:i:70",
+                        "ms:i:656",
+                        "AS:i:577",
+                        "nn:i:0",
+                        "tp:A:P",
+                        "cm:i:42",
+                        "s1:i:302",
+                        "s2:i:87",
+                        "de:f:0.0059",
+                        "rl:i:194",
+                    ],
+                },
+                header=self.header,
+            )
+        ]
+
+        self.assertTrue(
+            check_contig_support(
+                variant=variant,
+                alignments=alignments,
+            )
+        )
+
     def test_check_contig_support_false_1(self) -> None:
         """This is an example of an IMPRECISE variant which by definitions does not
         have a contig seqeunce. Thus is variant is obviously not supported by one."""
