@@ -1,9 +1,9 @@
 package:
   name: svtoolbox
-  version: 'v0.0_alpha1'
+  version: 'v0.0_alpha2'
 
 source:
-  git_rev: v0.0_alpha1
+  git_rev: v0.0_alpha2
   git_url: git@github.com:micknudsen/svtoolbox.git
 
 build:
