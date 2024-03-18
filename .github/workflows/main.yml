@@ -28,7 +28,7 @@ jobs:
           pip install coverage mypy black
 
           # Install package
-          pip install .
+          pip install -e .
 
           # Check code quality
           black --check src/svtoolbox/
