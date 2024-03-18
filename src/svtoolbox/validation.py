@@ -20,6 +20,9 @@ def check_contig_support(variant: Variant, alignments: List[AlignedSegment]) -> 
 
         match variant.get_info(key="SVTYPE"):
 
+            case "INS":
+                return (1, abs(int(variant.get_info(key="SVLEN")))) in cigartuples
+
             case "DEL":
                 return (2, abs(int(variant.get_info(key="SVLEN")))) in cigartuples
 
