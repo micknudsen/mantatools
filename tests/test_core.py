@@ -357,6 +357,42 @@ class TestConfidenceIntervals(unittest.TestCase):
             Interval(chrom="chr10", left=1100, right=1100),
         )
 
+    def test_ci_start_and_ci_end_breakend(self) -> None:
+        variant = Variant(
+            chrom="chr5",
+            pos="500",
+            id="MantaBND:0",
+            ref="A",
+            alt="]chr6:600]A",
+            qual="1000",
+            filter="PASS",
+            info="SVTYPE=BND;MATEID=MantaBND:1",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        variant.mate = Variant(
+            chrom="chr6",
+            pos="600",
+            id="MantaBND:1",
+            ref="C",
+            alt="C[chr5:500[",
+            qual="1000",
+            filter="PASS",
+            info="SVTYPE=BND;MATEID=MantaBND:0",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.ci_start,
+            Interval(chrom="chr5", left=500, right=500),
+        )
+        self.assertEqual(
+            variant.ci_end,
+            Interval(chrom="chr6", left=600, right=600),
+        )
+
 
 class TestBedPE(unittest.TestCase):
 
