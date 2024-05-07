@@ -438,3 +438,46 @@ class TestToBedPE(unittest.TestCase):
     def test_to_bedpe_field_not_found(self) -> None:
         with self.assertRaises(FieldNotFound):
             self.variant.to_bedpe(include_fields=["NON_EXISTENT_FIELD"])
+
+    def test_to_bedpe_bnd_variant(self) -> None:
+        variant = Variant(
+            chrom="chr5",
+            pos="500",
+            id="MantaBND:0",
+            ref="A",
+            alt="]chr6:600]A",
+            qual="1000",
+            filter="PASS",
+            info="SVTYPE=BND;MATEID=MantaBND:1",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        variant.mate = Variant(
+            chrom="chr6",
+            pos="600",
+            id="MantaBND:1",
+            ref="C",
+            alt="C[chr5:500[",
+            qual="1000",
+            filter="PASS",
+            info="SVTYPE=BND;MATEID=MantaBND:0",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.to_bedpe(),
+            BedPE(
+                chrom_1="chr5",
+                start_1=499,
+                end_1=500,
+                chrom_2="chr6",
+                start_2=599,
+                end_2=600,
+                name="MantaBND:0",
+                score="1000",
+                strand_1=None,
+                strand_2=None,
+            ),
+        )
