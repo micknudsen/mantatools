@@ -48,7 +48,45 @@ class TestVariant(unittest.TestCase):
         with self.assertRaises(GenotypeFieldNotFound):
             self.variant.get_genotype("NON_EXISTENT_GENOTYPE_FIELD")
 
+    def test_str_method(self) -> None:
+        self.assertEqual(
+            self.variant.__str__(),
+            "chr1\t100\tMyVariant\tA\t<DEL>\t1000\tPASS\tIMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20\tGT:PR\t0/1:20,15",
+        )
+
+    def test_str_method_after_insertion_new_key_value_info(self) -> None:
+        self.variant.set_info(key="NEW_FIELD", value="NEW_VALUE")
+        self.assertEqual(
+            self.variant.__str__(),
+            "chr1\t100\tMyVariant\tA\t<DEL>\t1000\tPASS\tIMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20;NEW_FIELD=NEW_VALUE\tGT:PR\t0/1:20,15",
+        )
+
+    def test_str_method_after_insertion_new_flag_info(self) -> None:
+        self.variant.set_info(key="NEW_FLAG", value=True)
+        self.assertEqual(
+            self.variant.__str__(),
+            "chr1\t100\tMyVariant\tA\t<DEL>\t1000\tPASS\tIMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20;NEW_FLAG\tGT:PR\t0/1:20,15",
+        )
+
+
+class TestToBedPE(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.variant = Variant(
+            chrom="chr1",
+            pos="100",
+            id="MyVariant",
+            ref="A",
+            alt="<DEL>",
+            qual="1000",
+            filter="PASS",
+            info="IMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20",
+            format="GT:PR",
+            genotypes=["0/1:20,15"],
+        )
+
     def test_to_bedpe(self) -> None:
+
         self.assertEqual(
             self.variant.to_bedpe(),
             BedPE(
@@ -65,7 +103,8 @@ class TestVariant(unittest.TestCase):
             ),
         )
 
-    def test_to_bedpe_with_extra_fields(self) -> None:
+    def test_to_bedpe_extra_fields(self) -> None:
+
         self.assertEqual(
             self.variant.to_bedpe(
                 include_fields=[
@@ -96,28 +135,9 @@ class TestVariant(unittest.TestCase):
         )
 
     def test_to_bedpe_field_not_found(self) -> None:
+
         with self.assertRaises(FieldNotFound):
             self.variant.to_bedpe(include_fields=["NON_EXISTENT_FIELD"])
-
-    def test_str_method(self) -> None:
-        self.assertEqual(
-            self.variant.__str__(),
-            "chr1\t100\tMyVariant\tA\t<DEL>\t1000\tPASS\tIMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20\tGT:PR\t0/1:20,15",
-        )
-
-    def test_str_method_after_insertion_new_key_value_info(self) -> None:
-        self.variant.set_info(key="NEW_FIELD", value="NEW_VALUE")
-        self.assertEqual(
-            self.variant.__str__(),
-            "chr1\t100\tMyVariant\tA\t<DEL>\t1000\tPASS\tIMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20;NEW_FIELD=NEW_VALUE\tGT:PR\t0/1:20,15",
-        )
-
-    def test_str_method_after_insertion_new_flag_info(self) -> None:
-        self.variant.set_info(key="NEW_FLAG", value=True)
-        self.assertEqual(
-            self.variant.__str__(),
-            "chr1\t100\tMyVariant\tA\t<DEL>\t1000\tPASS\tIMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20;NEW_FLAG\tGT:PR\t0/1:20,15",
-        )
 
 
 class TestBreakpoints(unittest.TestCase):
