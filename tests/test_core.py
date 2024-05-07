@@ -69,77 +69,6 @@ class TestVariant(unittest.TestCase):
         )
 
 
-class TestToBedPE(unittest.TestCase):
-
-    def setUp(self) -> None:
-        self.variant = Variant(
-            chrom="chr1",
-            pos="100",
-            id="MyVariant",
-            ref="A",
-            alt="<DEL>",
-            qual="1000",
-            filter="PASS",
-            info="IMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20",
-            format="GT:PR",
-            genotypes=["0/1:20,15"],
-        )
-
-    def test_to_bedpe(self) -> None:
-
-        self.assertEqual(
-            self.variant.to_bedpe(),
-            BedPE(
-                chrom_1="chr1",
-                start_1=89,
-                end_1=105,
-                chrom_2="chr1",
-                start_2=184,
-                end_2=220,
-                name="MyVariant",
-                score="1000",
-                strand_1=None,
-                strand_2=None,
-            ),
-        )
-
-    def test_to_bedpe_extra_fields(self) -> None:
-
-        self.assertEqual(
-            self.variant.to_bedpe(
-                include_fields=[
-                    "REF",
-                    "ALT",
-                    "QUAL",
-                    "FILTER",
-                ]
-            ),
-            BedPE(
-                chrom_1="chr1",
-                start_1=89,
-                end_1=105,
-                chrom_2="chr1",
-                start_2=184,
-                end_2=220,
-                name="MyVariant",
-                score="1000",
-                strand_1=None,
-                strand_2=None,
-                fields={
-                    "REF": "A",
-                    "ALT": "<DEL>",
-                    "QUAL": "1000",
-                    "FILTER": "PASS",
-                },
-            ),
-        )
-
-    def test_to_bedpe_field_not_found(self) -> None:
-
-        with self.assertRaises(FieldNotFound):
-            self.variant.to_bedpe(include_fields=["NON_EXISTENT_FIELD"])
-
-
 class TestBreakpoints(unittest.TestCase):
 
     def test_deletion(self) -> None:
@@ -442,3 +371,70 @@ class TestBedPE(unittest.TestCase):
             bedpe.__str__(),
             "chr1\t100\t200\tchr3\t400\t500\tMyVariant\t1000\t+\t-\tREF=A;ALT=<DEL>;QUAL=1000;FILTER=PASS",
         )
+
+
+class TestToBedPE(unittest.TestCase):
+    def setUp(self) -> None:
+        self.variant = Variant(
+            chrom="chr1",
+            pos="100",
+            id="MyVariant",
+            ref="A",
+            alt="<DEL>",
+            qual="1000",
+            filter="PASS",
+            info="IMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20",
+            format="GT:PR",
+            genotypes=["0/1:20,15"],
+        )
+
+    def test_to_bedpe(self) -> None:
+        self.assertEqual(
+            self.variant.to_bedpe(),
+            BedPE(
+                chrom_1="chr1",
+                start_1=89,
+                end_1=105,
+                chrom_2="chr1",
+                start_2=184,
+                end_2=220,
+                name="MyVariant",
+                score="1000",
+                strand_1=None,
+                strand_2=None,
+            ),
+        )
+
+    def test_to_bedpe_extra_fields(self) -> None:
+        self.assertEqual(
+            self.variant.to_bedpe(
+                include_fields=[
+                    "REF",
+                    "ALT",
+                    "QUAL",
+                    "FILTER",
+                ]
+            ),
+            BedPE(
+                chrom_1="chr1",
+                start_1=89,
+                end_1=105,
+                chrom_2="chr1",
+                start_2=184,
+                end_2=220,
+                name="MyVariant",
+                score="1000",
+                strand_1=None,
+                strand_2=None,
+                fields={
+                    "REF": "A",
+                    "ALT": "<DEL>",
+                    "QUAL": "1000",
+                    "FILTER": "PASS",
+                },
+            ),
+        )
+
+    def test_to_bedpe_field_not_found(self) -> None:
+        with self.assertRaises(FieldNotFound):
+            self.variant.to_bedpe(include_fields=["NON_EXISTENT_FIELD"])
