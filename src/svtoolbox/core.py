@@ -205,7 +205,13 @@ class Variant:
     def ci_end(self) -> Interval:
         """Return confidence interval for the end position. If the CIEND
         info field is not found, return an interval with the end position
-        as both left and right."""
+        as both left and right. For BND variants, the confidence interval
+        of the end poistion is the same as the confidence interval of the
+        start position of the mate."""
+        if self.get_info("SVTYPE") == "BND":
+            if self.mate is None:
+                raise MissingMate(self.id)
+            return self.mate.ci_start
         try:
             left, right = str(self.get_info("CIEND")).split(",")
             return Interval(
