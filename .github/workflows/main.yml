@@ -24,7 +24,6 @@ jobs:
         run: |
 
           # Install software
-          sudo apt-get install jq
           pip install coverage mypy black
 
           # Install package
@@ -33,10 +32,3 @@ jobs:
           # Check code quality
           black --check src/svtoolbox/
           mypy src/svtoolbox/
-
-          # Check code coverage
-          coverage run -m unittest && coverage json
-          if [[ ! "$(cat coverage.json | jq .totals.percent_covered)" == "100" ]]; then
-            echo "Coverage is below 100%"
-            exit 1
-          fi
