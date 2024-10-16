@@ -218,7 +218,7 @@ class TestBreakpoints(unittest.TestCase):
             Position(chrom="chr4", pos=400),
         )
 
-    def test_breakend(self) -> None:
+    def test_breakend_manta_style(self) -> None:
         variant = Variant(
             chrom="chr5",
             pos="500",
