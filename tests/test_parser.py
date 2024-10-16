@@ -87,6 +87,21 @@ class TestVcfParser(unittest.TestCase):
                     "20,10:50,30",
                 ]
             ),
+            "\t".join(
+                [
+                    "chr5",
+                    "500",
+                    "BND000012345",
+                    "A",
+                    "A]chr6:600]",
+                    "1000",
+                    "PASS",
+                    "CHR2=chr6;POS2=600;SVTYPE=BND",
+                    "RV:DV",
+                    "0:0",
+                    "10:20",
+                ]
+            ),
         ]
 
         self.variants = parse_vcf(vcf_lines)
@@ -108,6 +123,10 @@ class TestVcfParser(unittest.TestCase):
             self.variants["MantaBND:1"].start,
             Position(chrom="chr4", pos=400),
         )
+        self.assertEqual(
+            self.variants["BND000012345"].start,
+            Position(chrom="chr5", pos=500),
+        )
 
     def test_variant_end(self) -> None:
         self.assertEqual(
@@ -125,4 +144,8 @@ class TestVcfParser(unittest.TestCase):
         self.assertEqual(
             self.variants["MantaBND:1"].end,
             Position(chrom="chr2", pos=200),
+        )
+        self.assertEqual(
+            self.variants["BND000012345"].end,
+            Position(chrom="chr6", pos=600),
         )
