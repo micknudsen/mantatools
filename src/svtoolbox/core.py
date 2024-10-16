@@ -215,20 +215,18 @@ class Variant:
         as both left and right. For BND variants, the confidence interval
         of the end poistion is the same as the confidence interval of the
         start position of the mate."""
-        if self.get_info("SVTYPE") == "BND":
-            if self.mate is None:
-                raise MissingMate(self.id)
+        if self.get_info("SVTYPE") == "BND" and self.mate is not None:
             return self.mate.ci_start
         try:
             left, right = str(self.get_info("CIEND")).split(",")
             return Interval(
-                chrom=self.chrom,
+                chrom=self.end.chrom,
                 left=self.end.pos + int(left),
                 right=self.end.pos + int(right),
             )
         except InfoFieldNotFound:
             return Interval(
-                chrom=self.chrom,
+                chrom=self.end.chrom,
                 left=self.end.pos,
                 right=self.end.pos,
             )
