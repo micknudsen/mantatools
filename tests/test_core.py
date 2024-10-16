@@ -381,7 +381,7 @@ class TestConfidenceIntervals(unittest.TestCase):
             Interval(chrom="chr10", left=1100, right=1100),
         )
 
-    def test_ci_start_and_ci_end_breakend(self) -> None:
+    def test_ci_start_and_ci_end_breakend_manta_style(self) -> None:
         variant = Variant(
             chrom="chr5",
             pos="500",
