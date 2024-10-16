@@ -417,6 +417,29 @@ class TestConfidenceIntervals(unittest.TestCase):
             Interval(chrom="chr6", left=600, right=600),
         )
 
+    def test_ci_start_and_ci_end_breakend_delly_style(self) -> None:
+        variant = Variant(
+            chrom="chr7",
+            pos="700",
+            id="BND000012345",
+            ref="A",
+            alt="]chr8:800]A",
+            qual="1000",
+            filter="PASS",
+            info="SVTYPE=BND;CHR2=chr8;POS2=800;CIPOS=-10,10;CIEND=-20,20",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.ci_start,
+            Interval(chrom="chr7", left=690, right=710),
+        )
+        self.assertEqual(
+            variant.ci_end,
+            Interval(chrom="chr8", left=780, right=820),
+        )
+
 
 class TestBedPE(unittest.TestCase):
 
