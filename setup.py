@@ -8,7 +8,7 @@ setup(
     test_suite="tests",
     entry_points={"console_scripts": ["svtoolbox = svtoolbox.client:run"]},
     python_requires=">=3.10",
-    install_requires=["click", "pysam"],
+    install_requires=["click", "pysam", "setuptools"],
     author="Michael Knudsen",
     author_email="micknudsen@gmail.com",
 )
