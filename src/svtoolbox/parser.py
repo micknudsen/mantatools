@@ -1,6 +1,7 @@
 from typing import Dict, Iterable
 
 from svtoolbox.core import Variant
+from svtoolbox.exceptions import InfoFieldNotFound
 
 
 def parse_vcf(stream: Iterable) -> Dict[str, Variant]:
@@ -35,9 +36,12 @@ def parse_vcf(stream: Iterable) -> Dict[str, Variant]:
         # If the variant is a BND, and if we have already encountered
         # the mate variant, then link the two variants together.
         if variant.get_info("SVTYPE") == "BND":
-            mate_id = str(variant.get_info("MATEID"))
-            if mate_id in variants:
-                variant.mate = variants[mate_id]
-                variants[mate_id].mate = variant
+            try:
+                mate_id = str(variant.get_info("MATEID"))
+                if mate_id in variants:
+                    variant.mate = variants[mate_id]
+                    variants[mate_id].mate = variant
+            except InfoFieldNotFound:
+                pass
 
     return variants
