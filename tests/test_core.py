@@ -258,6 +258,30 @@ class TestBreakpoints(unittest.TestCase):
             Position(chrom="chr6", pos=600),
         )
 
+    def test_breakend_delly_style(self) -> None:
+        variant = Variant(
+            chrom="chr7",
+            pos="2000",
+            id="BND000012345",
+            ref="A",
+            alt="A]chr8:3000]",
+            qual="1000",
+            filter="PASS",
+            info="SVTYPE=BND;CHR2=chr8;POS2=3000",
+            format="GT",
+            genotypes=["1/1"],
+        )
+
+        self.assertEqual(
+            variant.start,
+            Position(chrom="chr7", pos=2000),
+        )
+
+        self.assertEqual(
+            variant.end,
+            Position(chrom="chr8", pos=3000),
+        )
+
 
 class TestConfidenceIntervals(unittest.TestCase):
 
