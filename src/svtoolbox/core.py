@@ -177,6 +177,13 @@ class Variant:
         is the start position of the mate. For all other variants, the
         end position is specified in the END info field."""
         if self.get_info("SVTYPE") == "BND":
+            # This is the style used by Delly
+            try:
+                chrom, pos = self.get_info("CHR2"), self.get_info("POS2")
+                return Position(str(chrom), int(pos))
+            except InfoFieldNotFound:
+                pass
+            # This is the style used by Manta
             if self.mate is None:
                 raise MissingMate(self.id)
             return self.mate.start
