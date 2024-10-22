@@ -1,9 +1,9 @@
 package:
   name: svtoolbox
-  version: 'v1.1'
+  version: 'v1.2'
 
 source:
-  git_rev: v1.1
+  git_rev: v1.2
   git_url: git@github.com:micknudsen/svtoolbox.git
 
 build:
