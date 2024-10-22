@@ -14,6 +14,9 @@ class Position:
     chrom: str
     pos: int
 
+    def __str__(self) -> str:
+        return f"{self.chrom}:{self.pos}"
+
 
 @dataclass
 class Interval:
@@ -28,6 +31,9 @@ class Interval:
             and self.right >= other.left
             and self.left <= other.right
         )
+
+    def __str__(self) -> str:
+        return f"{self.chrom}:{self.left}-{self.right}"
 
 
 @dataclass
