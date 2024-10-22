@@ -9,6 +9,22 @@ from svtoolbox.exceptions import (
 )
 
 
+class TestInterval(unittest.TestCase):
+
+    def test_overlaps(self) -> None:
+        interval_1 = Interval(chrom="chr1", left=100, right=200)
+        interval_2 = Interval(chrom="chr1", left=150, right=250)
+        interval_3 = Interval(chrom="chr1", left=250, right=300)
+        interval_4 = Interval(chrom="chr2", left=100, right=200)
+
+        self.assertTrue(interval_1.overlaps(interval_2))
+        self.assertFalse(interval_1.overlaps(interval_3))
+        self.assertFalse(interval_1.overlaps(interval_4))
+        self.assertTrue(interval_2.overlaps(interval_3))
+        self.assertFalse(interval_2.overlaps(interval_4))
+        self.assertFalse(interval_3.overlaps(interval_4))
+
+
 class TestVariant(unittest.TestCase):
 
     def setUp(self) -> None:

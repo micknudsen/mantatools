@@ -21,6 +21,14 @@ class Interval:
     left: int
     right: int
 
+    def overlaps(self, other: "Interval") -> bool:
+        """VCF intervals are 1-based and closed"""
+        return (
+            self.chrom == other.chrom
+            and self.right >= other.left
+            and self.left <= other.right
+        )
+
 
 @dataclass
 class BedPE:
