@@ -1,6 +1,6 @@
 package:
   name: svtoolbox
-  version: 'v1.1.1'
+  version: '1.1.1'
 
 source:
   git_rev: v1.1.1
