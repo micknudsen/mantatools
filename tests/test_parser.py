@@ -149,3 +149,9 @@ class TestVcfParser(unittest.TestCase):
             self.variants["BND000012345"].end,
             Position(chrom="chr6", pos=600),
         )
+
+    def test_variant_genotypes(self) -> None:
+        self.assertDictEqual(
+            self.variants["MantaDEL"].genotypes,
+            {"NORMAL": "0:0", "TUMOR": "10:20"},
+        )
