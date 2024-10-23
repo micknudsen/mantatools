@@ -109,7 +109,7 @@ class Variant:
     filter: str
     info: str
     format: str
-    genotypes: List[str]
+    genotypes: Dict[str, str]
 
     # The mate variant of a BND variant
     mate: Optional["Variant"] = None
