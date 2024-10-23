@@ -38,7 +38,7 @@ class TestVariant(unittest.TestCase):
             filter="PASS",
             info="IMPRECISE;END=200;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20",
             format="GT:PR",
-            genotypes=["0/1:20,15"],
+            genotypes={"SAMPLE": "0/1:20,15"},
         )
 
     def test_get_info(self) -> None:
@@ -149,7 +149,7 @@ class TestBreakpoints(unittest.TestCase):
             filter="PASS",
             info="END=200;SVTYPE=DEL",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -173,7 +173,7 @@ class TestBreakpoints(unittest.TestCase):
             filter="PASS",
             info="END=300;SVTYPE=DUP",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -197,7 +197,7 @@ class TestBreakpoints(unittest.TestCase):
             filter="PASS",
             info="END=400;SVTYPE=INV",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -221,7 +221,7 @@ class TestBreakpoints(unittest.TestCase):
             filter="PASS",
             info="END=400;SVTYPE=DUP",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -245,7 +245,7 @@ class TestBreakpoints(unittest.TestCase):
             filter="PASS",
             info="SVTYPE=BND;MATEID=MantaBND:1",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -266,7 +266,7 @@ class TestBreakpoints(unittest.TestCase):
             filter="PASS",
             info="SVTYPE=BND;MATEID=MantaBND:0",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -285,7 +285,7 @@ class TestBreakpoints(unittest.TestCase):
             filter="PASS",
             info="SVTYPE=BND;CHR2=chr8;POS2=3000",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -312,7 +312,7 @@ class TestConfidenceIntervals(unittest.TestCase):
             filter="PASS",
             info="END=800;SVTYPE=DEL;CIPOS=-10,5;CIEND=-15,20",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -336,7 +336,7 @@ class TestConfidenceIntervals(unittest.TestCase):
             filter="PASS",
             info="END=900;SVTYPE=DEL;CIPOS=-10,5",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -360,7 +360,7 @@ class TestConfidenceIntervals(unittest.TestCase):
             filter="PASS",
             info="END=1000;SVTYPE=DEL;CIEND=-15,20",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -384,7 +384,7 @@ class TestConfidenceIntervals(unittest.TestCase):
             filter="PASS",
             info="END=1100;SVTYPE=DEL",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -408,7 +408,7 @@ class TestConfidenceIntervals(unittest.TestCase):
             filter="PASS",
             info="SVTYPE=BND;MATEID=MantaBND:1",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         variant.mate = Variant(
@@ -421,7 +421,7 @@ class TestConfidenceIntervals(unittest.TestCase):
             filter="PASS",
             info="SVTYPE=BND;MATEID=MantaBND:0",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
@@ -444,7 +444,7 @@ class TestConfidenceIntervals(unittest.TestCase):
             filter="PASS",
             info="SVTYPE=BND;CHR2=chr8;POS2=800;CIPOS=-10,10;CIEND=-20,20",
             format="GT",
-            genotypes=["1/1"],
+            genotypes={"SAMPLE": "1/1"},
         )
 
         self.assertEqual(
