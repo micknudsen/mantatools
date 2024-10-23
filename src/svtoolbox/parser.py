@@ -1,4 +1,4 @@
-from typing import Dict, Iterable
+from typing import Dict, Iterable, List
 
 from svtoolbox.core import Variant
 from svtoolbox.exceptions import InfoFieldNotFound
@@ -9,11 +9,14 @@ def parse_vcf(stream: Iterable) -> Dict[str, Variant]:
     variant IDs as keys and Variant objects as values."""
 
     variants: Dict[str, Variant] = {}
+    samples: List[str] = []
 
     for line in stream:
 
         # Skip header lines
         if line.startswith("#"):
+            if line.startswith("#CHROM"):
+                samples = line.rstrip("\n").split("\t")[9:]
             continue
 
         columns = line.rstrip("\n").split("\t")
@@ -28,7 +31,7 @@ def parse_vcf(stream: Iterable) -> Dict[str, Variant]:
             filter=columns[6],
             info=columns[7],
             format=columns[8],
-            genotypes=columns[9:],
+            genotypes=dict(zip(samples, columns[9:])),
         )
 
         variants[variant.id] = variant

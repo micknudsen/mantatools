@@ -120,7 +120,7 @@ class Variant:
         and one FORMAT dictionary for each sample in the VCF file."""
 
         self.info_dict: Dict[str, Union[str, bool]] = {}
-        self.format_dicts: List[Dict[str, str]] = []
+        self.format_dicts: Dict[str, Dict[str, str]] = {}
 
         for entry in self.info.split(";"):
             # This is a key-value entry
@@ -131,13 +131,11 @@ class Variant:
             else:
                 self.info_dict[entry] = True
 
-        for genotype in self.genotypes:
-            self.format_dicts.append(
-                {
-                    key: value
-                    for key, value in zip(self.format.split(":"), genotype.split(":"))
-                }
-            )
+        for sample, genotypes in self.genotypes.items():
+            self.format_dicts[sample] = {
+                key: value
+                for key, value in zip(self.format.split(":"), genotypes.split(":"))
+            }
 
     def __str__(self) -> str:
         return "\t".join(
@@ -156,7 +154,7 @@ class Variant:
                     ]
                 ),
                 self.format,
-                *self.genotypes,
+                *self.genotypes.values(),
             ]
         )
 
@@ -172,7 +170,11 @@ class Variant:
         """Set the value of the INFO field with the given key.."""
         self.info_dict[key] = value
 
-    def get_genotype(self, key: str, sample: int = 0) -> str:
+    def get_genotype(
+        self,
+        sample: str,
+        key: str,
+    ) -> str:
         """Return the value of the FORMAT field with the given key for the
         given sample. If the key is not found, raise an exception."""
         try:

@@ -57,12 +57,14 @@ class TestVariant(unittest.TestCase):
             self.variant.get_info("NON_EXISTENT_INFO_FIELD")
 
     def test_get_genotype(self) -> None:
-        self.assertEqual(self.variant.get_genotype("GT"), "0/1")
-        self.assertEqual(self.variant.get_genotype("PR"), "20,15")
+        self.assertEqual(self.variant.get_genotype(sample="SAMPLE", key="GT"), "0/1")
+        self.assertEqual(self.variant.get_genotype(sample="SAMPLE", key="PR"), "20,15")
 
     def test_genotype_field_not_found(self) -> None:
         with self.assertRaises(GenotypeFieldNotFound):
-            self.variant.get_genotype("NON_EXISTENT_GENOTYPE_FIELD")
+            self.variant.get_genotype(
+                sample="SAMPLE", key="NON_EXISTENT_GENOTYPE_FIELD"
+            )
 
     def test_to_bedpe(self) -> None:
         self.assertEqual(

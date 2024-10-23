@@ -153,5 +153,5 @@ class TestVcfParser(unittest.TestCase):
     def test_variant_genotypes(self) -> None:
         self.assertDictEqual(
             self.variants["MantaDEL"].genotypes,
-            {"NORMAL": "0:0", "TUMOR": "10:20"},
+            {"NORMAL": "15,0:30,0", "TUMOR": "30,5:60,20"},
         )
