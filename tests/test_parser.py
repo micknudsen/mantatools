@@ -106,6 +106,36 @@ class TestVcfParser(unittest.TestCase):
 
         self.variants = parse_vcf(vcf_lines)
 
+        vcf_lines_no_samples = [
+            "##fileformat=VCFv4.1",
+            "\t".join(
+                [
+                    "#CHROM",
+                    "POS",
+                    "ID",
+                    "REF",
+                    "ALT",
+                    "QUAL",
+                    "FILTER",
+                    "INFO",
+                ]
+            ),
+            "\t".join(
+                [
+                    "chr1",
+                    "100",
+                    "DELETION",
+                    "A",
+                    "<DEL>",
+                    ".",
+                    "PASS",
+                    "END=200;SVTYPE=DEL",
+                ]
+            ),
+        ]
+
+        self.variants_no_samples = parse_vcf(vcf_lines_no_samples)
+
     def test_variant_start(self) -> None:
         self.assertEqual(
             self.variants["MantaDEL"].start,
@@ -154,4 +184,10 @@ class TestVcfParser(unittest.TestCase):
         self.assertDictEqual(
             self.variants["MantaDEL"].genotypes,
             {"NORMAL": "15,0:30,0", "TUMOR": "30,5:60,20"},
+        )
+
+    def test_variant_genotypes_no_samples(self) -> None:
+        self.assertDictEqual(
+            self.variants_no_samples["DELETION"].genotypes,
+            {},
         )
