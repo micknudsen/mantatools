@@ -21,6 +21,13 @@ def parse_vcf(stream: Iterable) -> Dict[str, Variant]:
 
         columns = line.rstrip("\n").split("\t")
 
+        try:
+            format = columns[8]
+            genoptypes = dict(zip(samples, columns[9:]))
+        except IndexError:
+            format = None
+            genoptypes = None
+
         variant = Variant(
             chrom=columns[0],
             pos=columns[1],
@@ -30,8 +37,8 @@ def parse_vcf(stream: Iterable) -> Dict[str, Variant]:
             qual=columns[5],
             filter=columns[6],
             info=columns[7],
-            format=columns[8],
-            genotypes=dict(zip(samples, columns[9:])),
+            format=format,
+            genotypes=genoptypes,
         )
 
         variants[variant.id] = variant

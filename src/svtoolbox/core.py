@@ -108,8 +108,8 @@ class Variant:
     qual: str
     filter: str
     info: str
-    format: str
-    genotypes: Dict[str, str]
+    format: Optional[str]
+    genotypes: Optional[Dict[str, str]]
 
     # The mate variant of a BND variant
     mate: Optional["Variant"] = None
@@ -131,32 +131,35 @@ class Variant:
             else:
                 self.info_dict[entry] = True
 
-        for sample, genotypes in self.genotypes.items():
-            self.format_dicts[sample] = {
-                key: value
-                for key, value in zip(self.format.split(":"), genotypes.split(":"))
-            }
+        if self.format is not None and self.genotypes is not None:
+            for sample, genotypes in self.genotypes.items():
+                self.format_dicts[sample] = {
+                    key: value
+                    for key, value in zip(self.format.split(":"), genotypes.split(":"))
+                }
 
     def __str__(self) -> str:
-        return "\t".join(
-            [
-                self.chrom,
-                self.pos,
-                self.id,
-                self.ref,
-                self.alt,
-                self.qual,
-                self.filter,
-                ";".join(
-                    [
-                        f"{key}={value}" if isinstance(value, str) else key
-                        for key, value in self.info_dict.items()
-                    ]
-                ),
-                self.format,
-                *self.genotypes.values(),
-            ]
-        )
+        rows: List[str] = [
+            self.chrom,
+            self.pos,
+            self.id,
+            self.ref,
+            self.alt,
+            self.qual,
+            self.filter,
+            ";".join(
+                [
+                    f"{key}={value}" if isinstance(value, str) else key
+                    for key, value in self.info_dict.items()
+                ]
+            ),
+        ]
+
+        if self.format is not None and self.genotypes is not None:
+            rows.append(self.format)
+            rows.extend(self.genotypes.values())
+
+        return "\t".join(rows)
 
     def get_info(self, key: str) -> Union[str, bool]:
         """Return the value of the INFO field with the given key. If the key
